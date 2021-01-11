@@ -8,6 +8,14 @@
 #include <typeinfo>
 #include <iostream>
 #include <memory>
+#include <cmath>
+
+int squareRoot(int val){
+    if(val < 0) throw std::bad_exception();
+    return (int)sqrt(val);
+}
+
+
 
 template<class Type> class SingleType;
 template<class T> std::ostream &operator<< (std::ostream &out, const SingleType<T>& value) {
