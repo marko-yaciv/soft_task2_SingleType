@@ -1,6 +1,11 @@
 #include "SingleType.h"
 #include "type.h"
 
+int squareRoot(int val){
+    if(val < 0) throw std::bad_exception();
+    return (int)sqrt(val);
+}
+
 std::ostream &operator<< (std::ostream &out, const SingleType& value) {
     switch (value.currentType) {
         case SingleType::Types::Bool: out << value.Variable.boolT; break;
