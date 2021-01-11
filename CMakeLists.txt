@@ -3,4 +3,4 @@ project(task2_SingleType)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(task2_SingleType main.cpp)
+add_executable(task2_SingleType main.cpp SingleType.h)
