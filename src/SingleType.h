@@ -10,10 +10,7 @@
 #include <memory>
 #include <cmath>
 
-int squareRoot(int val){
-    if(val < 0) throw std::bad_exception();
-    return (int)sqrt(val);
-}
+int squareRoot(int val);
 
 
 
