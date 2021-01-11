@@ -8,7 +8,7 @@
 #include <typeinfo>
 #include <iostream>
 #include <memory>
-
+#include <cmath>
 
 
 class SingleType {
@@ -76,5 +76,10 @@ public:
     SingleType& operator = (SingleType&& other) noexcept;
     friend std::ostream &operator<< (std::ostream &out, const SingleType& value);
 };
+
+int squareRoot(int val){
+    if(val < 0) throw std::bad_exception();
+    return (int)sqrt(val);
+}
 
 #endif //TASK_2_SINGLETYPE_SINGLETYPE_H
