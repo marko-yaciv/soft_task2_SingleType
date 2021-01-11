@@ -9,135 +9,72 @@
 #include <iostream>
 #include <memory>
 
-template<class Type> class SingleType;
-template<class T> std::ostream &operator<< (std::ostream &out, const SingleType<T>& value) {
-    out << *value.variable;
-    return out;
-}
 
-template<class Type>
+
 class SingleType {
-    std::shared_ptr<Type> variable;
+    union {
+        bool boolT;
+        char charT;
+        char32_t char32T;
+        int intT;
+        int64_t int64T;
+        uint64_t uint64T;
+        float floatT;
+        double doubleT;
+        long double ldoubleT;
+    }Variable{};
+
+    const static enum Types{
+        Bool, Char, Char32, Int, Int64, uInt64, Float, Double, lDouble
+    }Types;
+
+    int currentType{};
 public:
     // constructors
-    SingleType();
-    SingleType(Type& val);
-    SingleType(Type&& val);
-    SingleType(const SingleType& other) noexcept;
-    SingleType(SingleType&& other) noexcept ;
+    SingleType() = default;
+    SingleType(bool val) noexcept;
+    SingleType(char val) noexcept;
+    SingleType(char32_t val) noexcept;
+    SingleType(int val) noexcept;
+    SingleType(int64_t val) noexcept;
+    SingleType(uint64_t val) noexcept;
+    SingleType(float val) noexcept;
+    SingleType(double val) noexcept;
+    SingleType(long double val) noexcept;
 
+    SingleType(const SingleType& other) noexcept;
+    SingleType(SingleType&& other) noexcept;
     //destructor
-    ~SingleType();
+    ~SingleType() = default;
+
+    [[nodiscard]] bool toBool() const;
+    [[nodiscard]] char toChar() const;
+    [[nodiscard]] char32_t toChar32() const;
+    [[nodiscard]] int toInt() const;
+    [[nodiscard]] int64_t toInt64() const;
+    [[nodiscard]] uint64_t touInt64() const;
+    [[nodiscard]] float toFloat() const;
+    [[nodiscard]] double toDouble() const;
+    [[nodiscard]] long double tolDouble() const;
 
     // member function that returns type of variable as std::type_info object
-    const char* getType() const;
+    [[nodiscard]] std::string getType() const;
     void swap(SingleType& val2);
 
-    bool operator >  (const SingleType& other) const;
-    bool operator >= (const SingleType& other) const;
-    bool operator <  (const SingleType& other) const;
-    bool operator <= (const SingleType& other) const;
-    bool operator == (const SingleType& other) const;
+
+    SingleType& operator = (bool val)  noexcept;
+    SingleType& operator = (char val) noexcept;
+    SingleType& operator = (char32_t val) noexcept;
+    SingleType& operator = (int val) noexcept;
+    SingleType& operator = (int64_t val) noexcept;
+    SingleType& operator = (uint64_t val) noexcept;
+    SingleType& operator = (float val) noexcept;
+    SingleType& operator = (double val) noexcept;
+    SingleType& operator = (long double val) noexcept;
 
     SingleType& operator = (const SingleType& other) noexcept;
     SingleType& operator = (SingleType&& other) noexcept;
-    SingleType& operator = (const Type& val) noexcept;
-    SingleType& operator = (Type&& val) noexcept;
-
-
-    friend std::ostream &operator<< <>(std::ostream &out, const SingleType& value);
+    friend std::ostream &operator<< (std::ostream &out, const SingleType& value);
 };
-
-template<class Type>
-SingleType<Type>::SingleType() {
-    variable = std::make_shared<Type>(nullptr);
-}
-
-template<class Type>
-SingleType<Type>::SingleType(Type &val) {
-    variable = std::make_shared<Type>(val);
-}
-
-template<class Type>
-SingleType<Type>::SingleType(Type &&val) {
-    variable = std::make_shared<Type>(std::move(val));
-}
-
-template<class Type>
-SingleType<Type>::SingleType(const SingleType &other) noexcept {
-    variable = other.variable;
-}
-
-template<class Type>
-SingleType<Type>::SingleType(SingleType &&other) noexcept {
-    variable = std::move(other.variable);
-}
-
-template<class Type>
-SingleType<Type>::~SingleType() {
-
-}
-
-template<class Type>
-const char* SingleType<Type>::getType() const {
-    return typeid(*variable).name();
-}
-
-template<class Type>
-void SingleType<Type>::swap(SingleType &val2) {
-    auto tmp = *this;
-    *this = val2;
-    val2 = tmp;
-}
-
-template<class Type>
-bool SingleType<Type>::operator>(const SingleType &other) const {
-    return *variable > *other.variable;
-}
-
-template<class Type>
-bool SingleType<Type>::operator>=(const SingleType &other) const {
-    return *variable >= *other.variable;
-}
-
-template<class Type>
-bool SingleType<Type>::operator<(const SingleType &other) const {
-    return *variable < *other.variable;
-}
-
-template<class Type>
-bool SingleType<Type>::operator<=(const SingleType &other) const {
-    return *variable <= *other.variable;
-}
-
-template<class Type>
-bool SingleType<Type>::operator==(const SingleType &other) const {
-    return *variable == *other.variable;
-}
-
-template<class Type>
-SingleType<Type> &SingleType<Type>::operator=(const SingleType &other) noexcept {
-    variable = other.variable;
-    return *this;
-}
-
-template<class Type>
-SingleType<Type> &SingleType<Type>::operator=(SingleType &&other) noexcept {
-    variable = std::move(other.variable);
-    return *this;
-}
-
-template<class Type>
-SingleType<Type> &SingleType<Type>::operator=(const Type &val) noexcept {
-    variable = std::make_shared<Type>(val);
-    return *this;
-}
-
-template<class Type>
-SingleType<Type> &SingleType<Type>::operator=(Type &&val) noexcept {
-    variable = std::make_shared<Type>(std::move(val));
-    return *this;
-}
-
 
 #endif //TASK_2_SINGLETYPE_SINGLETYPE_H
