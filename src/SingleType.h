@@ -77,9 +77,6 @@ public:
     friend std::ostream &operator<< (std::ostream &out, const SingleType& value);
 };
 
-int squareRoot(int val){
-    if(val < 0) throw std::bad_exception();
-    return (int)sqrt(val);
-}
+int squareRoot(int val);
 
 #endif //TASK_2_SINGLETYPE_SINGLETYPE_H
