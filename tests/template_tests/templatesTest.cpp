@@ -5,3 +5,6 @@ TEST(firstTest, test1){
     EXPECT_EQ(4, squareRoot(16));
     ASSERT_ANY_THROW(squareRoot(-5));
 }
+TEST(firstTest, test2){
+
+}
