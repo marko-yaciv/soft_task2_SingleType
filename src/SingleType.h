@@ -14,7 +14,9 @@
  value of enum <Types> as char* */
 #define CASE_TYPE(datatype) case datatype: return #datatype; break;
 
-
+enum class Types{
+    Bool, Char, Char32, Int, Int64, uInt64, Float, Double, lDouble
+};
 class SingleType {
     union {
         bool boolT;
@@ -28,9 +30,7 @@ class SingleType {
         long double ldoubleT;
     }Variable{};
 
-    enum Types{
-        Bool, Char, Char32, Int, Int64, uInt64, Float, Double, lDouble
-    }currentType;
+    Types currentType;
 
     /* function will throw exception if
      <currentType> is not equal to <type>*/

@@ -181,15 +181,15 @@ void SingleType::swap(SingleType &val2){
 /*Private functions*/
 const char * SingleType::typeToString() const{
     switch (currentType){
-        CASE_TYPE(Bool)
-        CASE_TYPE(Char)
-        CASE_TYPE(Char32)
-        CASE_TYPE(Int)
-        CASE_TYPE(Int64)
-        CASE_TYPE(uInt64)
-        CASE_TYPE(Float)
-        CASE_TYPE(Double)
-        CASE_TYPE(lDouble)
+        CASE_TYPE(Types::Bool)
+        CASE_TYPE(Types::Char)
+        CASE_TYPE(Types::Char32)
+        CASE_TYPE(Types::Int)
+        CASE_TYPE(Types::Int64)
+        CASE_TYPE(Types::uInt64)
+        CASE_TYPE(Types::Float)
+        CASE_TYPE(Types::Double)
+        CASE_TYPE(Types::lDouble)
     }
 }
 
@@ -201,15 +201,15 @@ void SingleType::validateType(Types type) const{
 
 std::ostream &operator<< (std::ostream &out, const SingleType& value) {
     switch (value.currentType) {
-        case SingleType::Types::Bool: out << value.Variable.boolT; break;
-        case SingleType::Types::Char: out << value.Variable.charT; break;
-        case SingleType::Types::Char32: out << value.Variable.char32T; break;
-        case SingleType::Types::Int: out << value.Variable.intT; break;
-        case SingleType::Types::Int64: out << value.Variable.int64T; break;
-        case SingleType::Types::uInt64: out << value.Variable.uint64T; break;
-        case SingleType::Types::Float: out << value.Variable.floatT; break;
-        case SingleType::Types::Double: out << value.Variable.doubleT; break;
-        case SingleType::Types::lDouble: out << value.Variable.ldoubleT; break;
+        case Types::Bool: out << value.Variable.boolT; break;
+        case Types::Char: out << value.Variable.charT; break;
+        case Types::Char32: out << value.Variable.char32T; break;
+        case Types::Int: out << value.Variable.intT; break;
+        case Types::Int64: out << value.Variable.int64T; break;
+        case Types::uInt64: out << value.Variable.uint64T; break;
+        case Types::Float: out << value.Variable.floatT; break;
+        case Types::Double: out << value.Variable.doubleT; break;
+        case Types::lDouble: out << value.Variable.ldoubleT; break;
     }
     return out;
 }
