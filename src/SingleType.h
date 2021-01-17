@@ -10,6 +10,10 @@
 #include <memory>
 #include <cmath>
 
+/*This macro function will return
+ value of enum <Types> as char* */
+#define CASE_TYPE(datatype) case datatype: return #datatype; break;
+
 
 class SingleType {
     union {
@@ -24,14 +28,20 @@ class SingleType {
         long double ldoubleT;
     }Variable{};
 
-    const static enum Types{
+    enum Types{
         Bool, Char, Char32, Int, Int64, uInt64, Float, Double, lDouble
-    }Types;
+    }currentType;
 
-    int currentType{};
+    /* function will throw exception if
+     <currentType> is not equal to <type>*/
+    void validateType(Types type) const;
+
+    /*Function uses macro CASE_TYPE
+     * to return type of kept value*/
+    [[nodiscard]] const char * typeToString() const;
 public:
-    // constructors
-    SingleType() = default;
+    // constructors for each supported type
+    SingleType();
     SingleType(bool val) noexcept;
     SingleType(char val) noexcept;
     SingleType(char32_t val) noexcept;
@@ -41,12 +51,13 @@ public:
     SingleType(float val) noexcept;
     SingleType(double val) noexcept;
     SingleType(long double val) noexcept;
-
-    SingleType(const SingleType& other) noexcept;
     SingleType(SingleType&& other) noexcept;
-    //destructor
+    SingleType(const SingleType& other) noexcept;
+
     ~SingleType() = default;
 
+    /*nodiscard will show warning
+     * when return type will not be used*/
     [[nodiscard]] bool toBool() const;
     [[nodiscard]] char toChar() const;
     [[nodiscard]] char32_t toChar32() const;
@@ -57,11 +68,13 @@ public:
     [[nodiscard]] double toDouble() const;
     [[nodiscard]] long double tolDouble() const;
 
-    // member function that returns type of variable as std::type_info object
+    // member function that returns type of variable as string object
     [[nodiscard]] std::string getType() const;
+
+    //function to swap two objects of SingleType type;
     void swap(SingleType& val2);
 
-
+    //assignment operators for each supported type
     SingleType& operator = (bool val)  noexcept;
     SingleType& operator = (char val) noexcept;
     SingleType& operator = (char32_t val) noexcept;
@@ -74,9 +87,10 @@ public:
 
     SingleType& operator = (const SingleType& other) noexcept;
     SingleType& operator = (SingleType&& other) noexcept;
+
+    //function for easy printing type by std::cout <<
     friend std::ostream &operator<< (std::ostream &out, const SingleType& value);
 };
 
-int squareRoot(int val);
 
 #endif //TASK_2_SINGLETYPE_SINGLETYPE_H

@@ -1,26 +1,9 @@
 #include "SingleType.h"
-#include "type.h"
 
-int squareRoot(int val){
-    if(val < 0) throw std::bad_exception();
-    return (int)sqrt(val);
+//--------constructors---------
+SingleType::SingleType() {
+    currentType = Types::Bool;
 }
-
-std::ostream &operator<< (std::ostream &out, const SingleType& value) {
-    switch (value.currentType) {
-        case SingleType::Types::Bool: out << value.Variable.boolT; break;
-        case SingleType::Types::Char: out << value.Variable.charT; break;
-        case SingleType::Types::Char32: out << value.Variable.char32T; break;
-        case SingleType::Types::Int: out << value.Variable.intT; break;
-        case SingleType::Types::Int64: out << value.Variable.int64T; break;
-        case SingleType::Types::uInt64: out << value.Variable.uint64T; break;
-        case SingleType::Types::Float: out << value.Variable.floatT; break;
-        case SingleType::Types::Double: out << value.Variable.doubleT; break;
-        case SingleType::Types::lDouble: out << value.Variable.ldoubleT; break;
-    }
-    return out;
-}
-
 
 SingleType::SingleType(bool val) noexcept{
     Variable.boolT = val;
@@ -77,53 +60,53 @@ SingleType::SingleType(SingleType &&other)  noexcept{
     currentType = other.currentType;
 }
 
-
+//----------convert functions---------
 bool SingleType::toBool() const {
-    if(currentType != Types::Bool) throw std::bad_cast();
+    validateType(Types::Bool);
     return Variable.boolT;
 }
 
 char SingleType::toChar() const {
-    if(currentType != Types::Char) throw std::bad_cast();
+    validateType(Types::Char);
     return Variable.charT;
 }
 
 char32_t SingleType::toChar32() const {
-    if(currentType != Types::Char32) throw std::bad_cast();
+    validateType(Types::Char32);
     return Variable.char32T;
 }
 
 int SingleType::toInt() const {
-    if(currentType != Types::Int) throw std::bad_cast();
+    validateType(Types::Int);
     return Variable.intT;
 }
 
 int64_t SingleType::toInt64() const {
-    if(currentType != Types::Int64) throw std::bad_cast();
+    validateType(Types::Int64);
     return Variable.int64T;
 }
 
 uint64_t SingleType::touInt64() const {
-    if(currentType != Types::uInt64) throw std::bad_cast();
+    validateType(Types::uInt64);
     return Variable.uint64T;
 }
 
 float SingleType::toFloat() const {
-    if(currentType != Types::Float) throw std::bad_cast();
+    validateType(Types::Float);
     return Variable.floatT;
 }
 
 double SingleType::toDouble() const {
-    if(currentType != Types::Double) throw std::bad_cast();
+    validateType(Types::Double);
     return Variable.doubleT;
 }
 
 long double SingleType::tolDouble() const {
-    if(currentType != Types::lDouble) throw std::bad_cast();
+    validateType(Types::lDouble);
     return Variable.ldoubleT;
 }
 
-
+//--------assignment operators-------------
 SingleType &SingleType::operator = (bool val) noexcept{
     Variable.boolT = val;
     currentType = Types::Bool;
@@ -171,29 +154,21 @@ SingleType& SingleType::operator = (double val)noexcept{
     currentType = Types::Double;
     return *this;
 }
-SingleType& SingleType::operator = (long double val)noexcept{
+SingleType& SingleType::operator = (long double val) noexcept{
     Variable.ldoubleT = val;
     currentType = Types::lDouble;
     return *this;
 }
+SingleType &SingleType::operator=(const SingleType &other) noexcept = default;
 
-std::string SingleType::getType() const {
+SingleType &SingleType::operator=(SingleType &&other) noexcept = default;
 
-    switch (this->currentType) {
-        case SingleType::Types::Bool:    return type(Variable.boolT);
-        case SingleType::Types::Char:    return type(Variable.charT);
-        case SingleType::Types::Char32:  return type(Variable.char32T);
-        case SingleType::Types::Int:     return type(Variable.intT);
-        case SingleType::Types::Int64:   return type(Variable.int64T);
-        case SingleType::Types::uInt64:  return type(Variable.uint64T);
-        case SingleType::Types::Float:   return type(Variable.floatT);
-        case SingleType::Types::Double:  return type(Variable.doubleT);
-        case SingleType::Types::lDouble: return type(Variable.ldoubleT);
-    }
-    return "none";
+
+std::string SingleType::getType() const{
+    return std::string(typeToString());
 }
 
-void SingleType::swap(SingleType &val2) {
+void SingleType::swap(SingleType &val2){
     auto tmp = *this;
 
     Variable = val2.Variable;
@@ -203,6 +178,38 @@ void SingleType::swap(SingleType &val2) {
     val2.currentType = tmp.currentType;
 }
 
-SingleType &SingleType::operator=(const SingleType &other) noexcept = default;
+/*Private functions*/
+const char * SingleType::typeToString() const{
+    switch (currentType){
+        CASE_TYPE(Bool)
+        CASE_TYPE(Char)
+        CASE_TYPE(Char32)
+        CASE_TYPE(Int)
+        CASE_TYPE(Int64)
+        CASE_TYPE(uInt64)
+        CASE_TYPE(Float)
+        CASE_TYPE(Double)
+        CASE_TYPE(lDouble)
+    }
+}
 
-SingleType &SingleType::operator=(SingleType &&other) noexcept = default;
+void SingleType::validateType(Types type) const{
+    if(currentType != type){
+        throw std::bad_cast();
+    }
+}
+
+std::ostream &operator<< (std::ostream &out, const SingleType& value) {
+    switch (value.currentType) {
+        case SingleType::Types::Bool: out << value.Variable.boolT; break;
+        case SingleType::Types::Char: out << value.Variable.charT; break;
+        case SingleType::Types::Char32: out << value.Variable.char32T; break;
+        case SingleType::Types::Int: out << value.Variable.intT; break;
+        case SingleType::Types::Int64: out << value.Variable.int64T; break;
+        case SingleType::Types::uInt64: out << value.Variable.uint64T; break;
+        case SingleType::Types::Float: out << value.Variable.floatT; break;
+        case SingleType::Types::Double: out << value.Variable.doubleT; break;
+        case SingleType::Types::lDouble: out << value.Variable.ldoubleT; break;
+    }
+    return out;
+}
