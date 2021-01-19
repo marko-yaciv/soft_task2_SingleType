@@ -11,23 +11,23 @@ class Helper{
     std::vector<SingleType> elements;
 private:
 //prints message that work is completed
-    void waiter();
+    static void waiter();
 
 //Allows user to choose type from a given list
-    Types chooseType();
+    static Types chooseType();
 
 //assign <anyType> variable of type <type> with value <value>
-    void assignValue(SingleType& anyType, Types type,const std::string& value);
+    static void assignValue(SingleType& anyType, Types type,const std::string& value);
 
 //allows user to type a value and returns it
-    std::string getValue();
+    static std::string getValue();
 
 /*asks user to type index and returns it.
  If index is incorrect, throws std::out_of_range*/
     int getIndex(int size);
 
 //swaps two variables of type SingleType
-    void swap(SingleType& a, SingleType& b);
+    static void swap(SingleType& a, SingleType& b);
 public:
     Helper();
     ~Helper();

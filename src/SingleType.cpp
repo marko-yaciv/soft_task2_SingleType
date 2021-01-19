@@ -165,7 +165,7 @@ SingleType &SingleType::operator=(SingleType &&other) noexcept = default;
 
 
 std::string SingleType::getType() const{
-    return std::string(typeToString());
+    return std::string(typeToString()).substr(7);
 }
 
 void SingleType::swap(SingleType &val2){
@@ -191,6 +191,7 @@ const char * SingleType::typeToString() const{
         CASE_TYPE(Types::Double)
         CASE_TYPE(Types::lDouble)
     }
+    return "none";
 }
 
 void SingleType::validateType(Types type) const{

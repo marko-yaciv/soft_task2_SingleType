@@ -57,7 +57,7 @@ public:
     ~SingleType() = default;
 
     /*nodiscard will show warning
-     * when return type will not be used*/
+     * when return value will not be used*/
     [[nodiscard]] bool toBool() const;
     [[nodiscard]] char toChar() const;
     [[nodiscard]] char32_t toChar32() const;

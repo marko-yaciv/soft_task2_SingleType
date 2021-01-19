@@ -57,6 +57,7 @@ void Helper::outputElement() {
 }
 
 void Helper::swapElements() {
+
     try {
         int index1 = getIndex(elements.size());
         int index2 = getIndex(elements.size());
@@ -161,4 +162,3 @@ void Helper::waiter() {
 void Helper::swap(SingleType& a, SingleType& b) {
     a.swap(b);
 }
-
