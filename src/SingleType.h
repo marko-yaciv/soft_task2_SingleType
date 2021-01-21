@@ -10,9 +10,6 @@
 #include <memory>
 #include <cmath>
 
-int squareRoot(int val);
-
-
 
 template<class Type> class SingleType;
 template<class T> std::ostream &operator<< (std::ostream &out, const SingleType<T>& value) {
@@ -36,6 +33,7 @@ public:
 
     // member function that returns type of variable as std::type_info object
     const char* getType() const;
+    const Type& getValue() const;
     void swap(SingleType& val2);
 
     bool operator >  (const SingleType& other) const;
@@ -142,6 +140,11 @@ template<class Type>
 SingleType<Type> &SingleType<Type>::operator=(Type &&val) noexcept {
     variable = std::make_shared<Type>(std::move(val));
     return *this;
+}
+
+template<class Type>
+const Type &SingleType<Type>::getValue() const {
+    return *variable;
 }
 
 
