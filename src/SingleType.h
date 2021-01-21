@@ -30,6 +30,7 @@ class SingleType {
         long double ldoubleT;
     }Variable{};
 
+
     Types currentType;
 
     /* function will throw exception if
@@ -88,7 +89,7 @@ public:
     SingleType& operator = (const SingleType& other) noexcept;
     SingleType& operator = (SingleType&& other) noexcept;
 
-    //function for easy printing type by std::cout <<
+    //function for easy printing value using std::cout <<
     friend std::ostream &operator<< (std::ostream &out, const SingleType& value);
 };
 
